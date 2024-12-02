@@ -7,7 +7,7 @@ import com.hyper.customai.presentation.App
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "HyperAI_Custom",
+        title = "HyperAI",
     ) {
         App()
     }

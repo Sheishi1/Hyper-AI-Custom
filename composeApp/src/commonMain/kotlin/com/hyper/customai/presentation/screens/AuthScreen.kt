@@ -94,7 +94,7 @@ fun AuthScreen(
                 modifier = Modifier.width(392.dp),
                 text = "Продолжить"
             ) {
-
+                navController.navigate("MainScreen")
             }
         }
     }

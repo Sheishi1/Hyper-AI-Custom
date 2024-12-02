@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -34,10 +35,18 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.bundles.ktor)
 
             implementation(libs.navigation.compose)
             implementation(compose.runtime)
@@ -50,8 +59,13 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
         }
         desktopMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            api(libs.koin.core)
         }
     }
 }
