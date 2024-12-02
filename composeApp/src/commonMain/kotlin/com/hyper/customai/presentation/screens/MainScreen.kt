@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,6 +46,8 @@ fun MainScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+            .padding(horizontal = 20.dp),
         bottomBar = {
             ChatTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -60,40 +63,38 @@ fun MainScreen(
             )
         }
     ) { innerPadding ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-                .windowInsetsPadding(WindowInsets.safeDrawing)
-                .padding(bottom = innerPadding.calculateBottomPadding(), start = 20.dp, end = 20.dp),
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(
+                top = 10.dp,
+                bottom = innerPadding.calculateBottomPadding(),
+                start = 10.dp,
+                end = 10.dp
+            )
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                item {
-                    when (val state = geminiMessage) {
-                        is Resource.Success -> {
-                            AnimatedVisibility(
-                                visible = true
-                            ) {
-                                Text(
-                                    text = state.data,
-                                    color = MaterialTheme.colors.onBackground
-                                )
-                            }
-                        }
-
-                        is Resource.Loading -> {
-                            CircularProgressIndicator()
-                        }
-
-                        is Resource.Error -> {
+            item {
+                when (val state = geminiMessage) {
+                    is Resource.Success -> {
+                        AnimatedVisibility(
+                            visible = true
+                        ) {
                             Text(
-                                text = "Произошлка ошибка!\n${state.message}",
+                                text = state.data,
                                 color = MaterialTheme.colors.onBackground
                             )
                         }
+                    }
+
+                    is Resource.Loading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    is Resource.Error -> {
+                        Text(
+                            text = "Произошлка ошибка!\n${state.message}",
+                            color = MaterialTheme.colors.onBackground
+                        )
                     }
                 }
             }

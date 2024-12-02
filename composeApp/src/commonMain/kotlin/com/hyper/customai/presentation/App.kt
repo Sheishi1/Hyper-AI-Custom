@@ -1,5 +1,9 @@
 package com.hyper.customai.presentation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -23,23 +27,29 @@ fun App(
         KoinContext {
             val mainScreenViewModel = koinViewModel<MainScreenViewModel>()
 
-            NavHost(
-                navController = navController,
-                startDestination = "AuthScreen"
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background)
             ) {
-                composable(route = "AuthScreen") {
-                    AuthScreen(
-                        modifier = Modifier,
-                        navController = navController
-                    )
-                }
+                NavHost(
+                    navController = navController,
+                    startDestination = "AuthScreen"
+                ) {
+                    composable(route = "AuthScreen") {
+                        AuthScreen(
+                            modifier = Modifier,
+                            navController = navController
+                        )
+                    }
 
-                composable(route = "MainScreen") {
-                    MainScreen(
-                        modifier = Modifier,
-                        navController = navController,
-                        mainScreenViewModel = mainScreenViewModel
-                    )
+                    composable(route = "MainScreen") {
+                        MainScreen(
+                            modifier = Modifier,
+                            navController = navController,
+                            mainScreenViewModel = mainScreenViewModel
+                        )
+                    }
                 }
             }
         }

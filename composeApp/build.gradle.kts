@@ -35,6 +35,7 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
+            implementation(libs.core.splashscreen)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
