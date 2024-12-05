@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hyper.customai.common.Resource
 import com.hyper.customai.domain.model.GeminiRequestMessage
 import com.hyper.customai.domain.useCase.getGeminiMessage.GetGeminiMessageUseCase
+import com.hyper.customai.presentation.utils.HandleUiState
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -21,8 +22,8 @@ import kotlinx.coroutines.launch
 class MainScreenViewModel(
     private val getGeminiMessageUseCase: GetGeminiMessageUseCase
 ) : ViewModel() {
-    private val _geminiMessage = MutableStateFlow<Resource<String>>(Resource.Loading)
-    val geminiMessage: StateFlow<Resource<String>> = _geminiMessage.asStateFlow()
+    private val _geminiMessage = MutableStateFlow<HandleUiState<String>>(HandleUiState.None)
+    val geminiMessage: StateFlow<HandleUiState<String>> = _geminiMessage.asStateFlow()
 
     fun getResponse(
         value: String,
@@ -34,16 +35,16 @@ class MainScreenViewModel(
         ).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _geminiMessage.value = Resource.Success(result.data.message)
+                    _geminiMessage.value = HandleUiState.Success(result.data.message)
                 }
 
                 is Resource.Loading -> {
-                    _geminiMessage.value = Resource.Loading
+                    _geminiMessage.value = HandleUiState.Loading
                 }
 
                 is Resource.Error -> {
                     _geminiMessage.value =
-                        Resource.Error(message = result.message)
+                        HandleUiState.Error(message = result.message)
                 }
             }
         }.launchIn(viewModelScope)

@@ -1,4 +1,4 @@
-package com.hyper.customai.data
+package com.hyper.customai.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
