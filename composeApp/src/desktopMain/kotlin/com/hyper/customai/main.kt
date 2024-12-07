@@ -10,6 +10,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "HyperAI",
+        resizable = false
     ) {
         App()
     }

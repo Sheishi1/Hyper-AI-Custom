@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.hyper.customai.presentation.Theme.HyperAiTheme
 import com.hyper.customai.presentation.screens.AuthScreen
 import com.hyper.customai.presentation.screens.MainScreen
+import com.hyper.customai.presentation.viewModels.AuthScreenViewModel
 import com.hyper.customai.presentation.viewModels.MainScreenViewModel
 import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
@@ -31,6 +32,8 @@ fun App(
     HyperAiTheme {
         KoinContext {
             val mainScreenViewModel = koinViewModel<MainScreenViewModel>()
+            val authScreenViewModel = koinViewModel<AuthScreenViewModel>()
+            val startDestination = if (authScreenViewModel.apiToken != "") "MainScreen" else "AuthScreen"
 
             Box(
                 modifier = Modifier
@@ -39,12 +42,13 @@ fun App(
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = "AuthScreen"
+                    startDestination = startDestination
                 ) {
                     composable(route = "AuthScreen") {
                         AuthScreen(
                             modifier = Modifier,
-                            navController = navController
+                            navController = navController,
+                            authScreenViewModel = authScreenViewModel
                         )
                     }
 
@@ -52,7 +56,8 @@ fun App(
                         MainScreen(
                             modifier = Modifier,
                             navController = navController,
-                            mainScreenViewModel = mainScreenViewModel
+                            mainScreenViewModel = mainScreenViewModel,
+                            authScreenViewModel = authScreenViewModel
                         )
                     }
                 }

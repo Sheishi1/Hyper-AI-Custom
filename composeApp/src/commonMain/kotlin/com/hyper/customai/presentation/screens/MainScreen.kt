@@ -46,8 +46,10 @@ import com.hyper.customai.presentation.components.MainScreen.ChatMessagesBlock.C
 import com.hyper.customai.presentation.components.MainScreen.ChatMessagesBlock.TypingMessagesAnimationBlock.TypingMessagesAnimationBlock
 import com.hyper.customai.presentation.components.MainScreen.Navigation.ChatTextField
 import com.hyper.customai.presentation.components.MainScreen.Navigation.ChatTextFieldBlock
+import com.hyper.customai.presentation.components.MainScreen.Navigation.TopAppBar
 import com.hyper.customai.presentation.utils.HandleUiState
 import com.hyper.customai.presentation.utils.keyboardAsState
+import com.hyper.customai.presentation.viewModels.AuthScreenViewModel
 import com.hyper.customai.presentation.viewModels.MainScreenViewModel
 import kotlinx.coroutines.launch
 
@@ -55,7 +57,8 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     modifier: Modifier,
     navController: NavHostController,
-    mainScreenViewModel: MainScreenViewModel
+    mainScreenViewModel: MainScreenViewModel,
+    authScreenViewModel: AuthScreenViewModel
 ) {
     var textFieldValue by remember { mutableStateOf("") }
     var userMessage by remember { mutableStateOf("") }
@@ -84,6 +87,18 @@ fun MainScreen(
                     }
                 }
             )
+        },
+        topBar = {
+            TopAppBar(modifier = Modifier) {
+                coroutineScope.launch {
+                    authScreenViewModel.logOut()
+                    navController.navigate("AuthScreen") {
+                        popUpTo(navController.currentDestination?.route ?: return@navigate) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
         }
     ) { innerPadding ->
         Box(
