@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.hyper.customai.presentation.components.Custom.Buttons.PrimaryGradientButton
+import com.hyper.customai.presentation.components.Custom.Snackbars.ErrorSnackbar.ErrorSnackbar
 import com.hyper.customai.presentation.viewModels.AuthScreenViewModel
 import hyperai_custom.composeapp.generated.resources.Res
 import hyperai_custom.composeapp.generated.resources.empty_textfield
@@ -102,6 +103,8 @@ fun AuthScreen(
                     textColor = MaterialTheme.colors.onBackground
                 ),
                 placeholder = { Text("Токен") },
+                maxLines = 1,
+                singleLine = true,
                 onValueChange = { newValue ->
                     textFiledValue = newValue
                 }
@@ -125,6 +128,11 @@ fun AuthScreen(
         SnackbarHost(
             modifier = Modifier.align(Alignment.BottomCenter),
             hostState = snackbarHostState
-        )
+        ) { snackbarData ->
+            ErrorSnackbar(
+                modifier = Modifier,
+                snackbarData = snackbarData
+            )
+        }
     }
 }

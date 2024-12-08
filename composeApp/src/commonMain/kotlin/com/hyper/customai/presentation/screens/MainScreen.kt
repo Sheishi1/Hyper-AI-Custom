@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -66,9 +67,9 @@ fun MainScreen(
     val geminiMessage by mainScreenViewModel.geminiMessage.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
+    val lazyListState = rememberLazyListState()
 
     Scaffold(
-        modifier = Modifier.windowInsetsPadding(WindowInsets.systemBars),
         bottomBar = {
             ChatTextFieldBlock(
                 modifier = Modifier.fillMaxWidth(),
@@ -89,7 +90,11 @@ fun MainScreen(
             )
         },
         topBar = {
-            TopAppBar(modifier = Modifier) {
+            TopAppBar(
+                modifier = Modifier,
+                lazyListState = lazyListState,
+                userRequestText = userMessage
+            ) {
                 coroutineScope.launch {
                     authScreenViewModel.logOut()
                     navController.navigate("AuthScreen") {
@@ -116,6 +121,7 @@ fun MainScreen(
                 is HandleUiState.Success -> {
                     LazyColumn(
                         modifier = modifier.fillMaxSize(),
+                        state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         contentPadding = PaddingValues(
                             top = 10.dp,

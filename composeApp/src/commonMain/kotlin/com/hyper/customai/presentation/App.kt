@@ -33,32 +33,35 @@ fun App(
         KoinContext {
             val mainScreenViewModel = koinViewModel<MainScreenViewModel>()
             val authScreenViewModel = koinViewModel<AuthScreenViewModel>()
-            val startDestination = if (authScreenViewModel.apiToken != "") "MainScreen" else "AuthScreen"
+            val startDestination =
+                if (authScreenViewModel.apiToken != "") "MainScreen" else "AuthScreen"
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colors.background)
             ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = startDestination
-                ) {
-                    composable(route = "AuthScreen") {
-                        AuthScreen(
-                            modifier = Modifier,
-                            navController = navController,
-                            authScreenViewModel = authScreenViewModel
-                        )
-                    }
+                if (authScreenViewModel.apiToken != null) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = startDestination
+                    ) {
+                        composable(route = "AuthScreen") {
+                            AuthScreen(
+                                modifier = Modifier,
+                                navController = navController,
+                                authScreenViewModel = authScreenViewModel
+                            )
+                        }
 
-                    composable(route = "MainScreen") {
-                        MainScreen(
-                            modifier = Modifier,
-                            navController = navController,
-                            mainScreenViewModel = mainScreenViewModel,
-                            authScreenViewModel = authScreenViewModel
-                        )
+                        composable(route = "MainScreen") {
+                            MainScreen(
+                                modifier = Modifier,
+                                navController = navController,
+                                mainScreenViewModel = mainScreenViewModel,
+                                authScreenViewModel = authScreenViewModel
+                            )
+                        }
                     }
                 }
             }

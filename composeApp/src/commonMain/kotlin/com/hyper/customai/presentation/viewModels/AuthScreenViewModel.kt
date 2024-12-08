@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class AuthScreenViewModel(
     private val userDataStoreUseCase: UserDataStoreUseCase
 ): ViewModel() {
-    var apiToken by mutableStateOf<String>("")
+    var apiToken by mutableStateOf<String?>(null)
 
     init {
         viewModelScope.launch {
