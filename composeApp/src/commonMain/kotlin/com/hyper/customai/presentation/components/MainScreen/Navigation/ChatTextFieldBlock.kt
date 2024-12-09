@@ -69,7 +69,7 @@ fun ChatTextFieldBlock(
                 )
             }
             .background(MaterialTheme.colors.background)
-            .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = WindowInsets.systemBars.getBottom(LocalDensity.current).dp),
+            .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = WindowInsets.systemBars.getBottom(LocalDensity.current).dp / 2),
         contentAlignment = Alignment.Center
     ) {
         Column(

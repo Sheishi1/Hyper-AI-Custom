@@ -106,9 +106,7 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-        Box(
-            modifier = modifier.fillMaxSize()
-        ) {
+        Box(modifier = modifier.fillMaxSize()) {
             when (val state = geminiMessage) {
                 is HandleUiState.None -> {
                     TypingMessagesAnimationBlock(modifier = Modifier.align(Alignment.Center))
@@ -145,7 +143,9 @@ fun MainScreen(
 
                 is HandleUiState.Error -> {
                     Text(
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .align(Alignment.Center),
                         text = state.message,
                         color = MaterialTheme.colors.error,
                         fontSize = 18.sp,

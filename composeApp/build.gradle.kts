@@ -114,6 +114,13 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.hyper.customai"
             packageVersion = "1.0.0"
+
+            macOS {
+                iconFile.set(project.file("resources/hyperailogo.icns"))
+            }
+            windows {
+                iconFile.set(project.file("resources/hyperailogo.ico"))
+            }
         }
     }
 }
